@@ -12,6 +12,12 @@ namespace BikeStore.Infrastructure
         {
             var redisConnection = configureration["Redis:ConnectionString"];
 
+            if (string.IsNullOrWhiteSpace(redisConnection))
+            {
+                throw new InvalidOperationException(
+                    "Redis connection string is not configured. Please set 'Redis:ConnectionString'.");
+            }
+
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
 
             services.AddScoped<ICacheService, RedisCacheService>();
