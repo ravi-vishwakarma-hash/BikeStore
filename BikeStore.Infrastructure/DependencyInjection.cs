@@ -31,7 +31,7 @@ namespace BikeStore.Infrastructure
             //services.AddScoped<ICacheService, RedisCacheService>();
 
 
-            services.AddDbContext<BikeDbContext>(options =>
+            services.AddDbContextPool<BikeDbContext>(options =>
             {
                 var connectionString = configureration.GetConnectionString("bike_store_db");
                 if (string.IsNullOrWhiteSpace(connectionString))
@@ -40,7 +40,7 @@ namespace BikeStore.Infrastructure
                         "Database connection string is not configured. Please set 'ConnectionStrings:bike_store_db'.");
                 }
                 options.UseSqlServer(connectionString);
-            });
+            } );
 
             return services;
         }
