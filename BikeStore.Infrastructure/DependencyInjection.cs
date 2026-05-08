@@ -10,6 +10,12 @@ namespace BikeStore.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configureration)
         {
+            //var redisSettings = configureration
+            //    .GetSection("Redis")
+            //    .Get<RedisSettings>()
+            //    ?? throw new InvalidOperationException("Redis settings missing");
+
+
             var redisConnection = configureration["Redis:ConnectionString"];
 
             if (string.IsNullOrWhiteSpace(redisConnection))
