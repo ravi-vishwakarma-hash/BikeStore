@@ -10,6 +10,13 @@ namespace BikeStore.Infrastructure
 {
     public static class DependencyInjection
     {
+        /// <summary>
+        /// Add infrastructure services to the service collection. Add redis cache service and database context.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configureration"></param>
+        /// <returns>return IServiceCollection</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configureration)
         {
             //var redisSettings = configureration
