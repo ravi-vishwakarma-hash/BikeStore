@@ -1,5 +1,5 @@
 using BikeStore.Infrastructure;
-
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Add logging (default providers are already added, but you can configure here if needed)
+// Example: builder.Logging.AddConsole();
 
 var app = builder.Build();
 
@@ -20,11 +23,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-
-
-app.MapGet("/health", () =>
+// Example usage of logging in a minimal API endpoint
+app.MapGet("/health", (ILoggerFactory loggerFactory) =>
 {
-    return new { status = "Healthy" };
+    var logger = loggerFactory.CreateLogger("HealthEndpoint");
+    logger.LogInformation("Health check endpoint was called.");
+    return new { status = true, messaeg = "Healthy" };
 });
 
 app.Run();
