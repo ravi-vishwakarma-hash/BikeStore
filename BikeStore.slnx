@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
   <Project Path="BikeStore.Api/BikeStore.Api.csproj" />
   <Project Path="BikeStore.Application/BikeStore.Application.csproj" />
   <Project Path="BikeStore.Domain/BikeStore.Domain.csproj" />
