@@ -1,4 +1,5 @@
 ﻿using BikeStore.Application.Interface;
+using BikeStore.Domain.Interfaces.Products;
 using BikeStore.Infrastructure.Persistence.DbContext;
 using BikeStore.Infrastructure.Service;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,12 @@ namespace BikeStore.Infrastructure
                 }
                 options.UseSqlServer(connectionString);
             } );
+
+
+            // Register repositories and services
+            services.AddScoped<IProducts, Repositories.ProductRepository>();
+            services.AddScoped<Service.Product.ProductService>();
+
 
             return services;
         }

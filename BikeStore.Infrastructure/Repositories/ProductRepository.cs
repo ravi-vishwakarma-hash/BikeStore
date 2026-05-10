@@ -6,6 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BikeStore.Infrastructure.Repositories
 {
+
+    /// <summary>
+    /// It is a repository class for the Product entity. It implements the IProducts interface and inherits from the Repository base class. It uses the BikeDbContext to access the database and perform CRUD operations on the Product entity. It also maps the Product entity to the ProductDto data transfer object for returning data to the service layer.
+    /// </summary>
+    /// <param name="dbContext"></param>
     internal class ProductRepository(BikeDbContext dbContext)
         : Repository<Product>(dbContext), IProducts
     {
