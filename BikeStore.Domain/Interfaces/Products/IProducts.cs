@@ -7,7 +7,10 @@ namespace BikeStore.Domain.Interfaces.Products
 {
     public interface IProducts
     {
-        Task<IEnumerable<ProductDto>> GetProductsAsync();
-        Task<ProductDto?> GetProductByIdAsync(int id);
+        Task<IEnumerable<ProductDto>> GetProductsAsync(CancellationToken cancellationToken);
+        Task<ProductDto?> GetProductByIdAsync(int id, CancellationToken cancellationToken);
+        Task<IEnumerable<CategoryDto>> GetCategoriesAsync(string? search, CancellationToken cancellationToken);
+        Task<IEnumerable<BrandDto>> GetBrandsAsync(string? search, CancellationToken cancellationToken);
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using BikeStore.Domain.Interfaces.Products;
+﻿using BikeStore.Domain.DTOs;
+using BikeStore.Domain.Interfaces.Products;
+using BikeStore.Infrastructure.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,9 +20,9 @@ namespace BikeStore.Infrastructure.Service.Product
         /// <returns>
         /// An IEnumerable of ProductDto objects representing the products retrieved from the data source.
         /// </returns>
-        public async Task<IEnumerable<Domain.DTOs.ProductDto>> GetProductsAsync()
+        public async Task<IEnumerable<Domain.DTOs.ProductDto>> GetProductsAsync(CancellationToken cancellationToken)
         {
-            return await products.GetProductsAsync();
+            return await products.GetProductsAsync(cancellationToken);
         }
 
         /// <summary>
@@ -29,10 +31,19 @@ namespace BikeStore.Infrastructure.Service.Product
         /// <param name="id">The unique identifier of the product to retrieve. Must be a positive integer.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see
         /// cref="Domain.DTOs.ProductDto"/> representing the product if found; otherwise, <see langword="null"/>.</returns>
-        public async Task<Domain.DTOs.ProductDto?> GetProductByIdAsync(int id)
+        public async Task<Domain.DTOs.ProductDto?> GetProductByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await products.GetProductByIdAsync(id);
+            return await products.GetProductByIdAsync(id, cancellationToken);
         }
 
+        public async Task<IEnumerable<CategoryDto>> GetCategoriesAsync(string? search, CancellationToken cancellationToken)
+        {
+            return await products.GetCategoriesAsync(search, cancellationToken);
+        }
+
+        public async Task<IEnumerable<BrandDto>> GetBrandsAsync(string? search, CancellationToken cancellationToken)
+        {
+            return await products.GetBrandsAsync(search, cancellationToken);
+        }
     }
 }

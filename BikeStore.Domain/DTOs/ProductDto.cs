@@ -4,13 +4,19 @@ using System.Text;
 
 namespace BikeStore.Domain.DTOs
 {
-    public class ProductDto
+    public sealed class ProductDto
     {
         public int ProductId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; } 
         public decimal Price { get; set; }
-        public int Stock { get; set; } = 0;
+        public int Stock { get; set; } 
+
+        public string Categoty { get; set; } = string.Empty;
+
+        public string Brand { get; set; } = string.Empty;
+
+        public int? ModelYear { get; set; }
 
     }
 }

@@ -84,8 +84,7 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
 
     public virtual DbSet<Visit> Visits { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:bike_store_db");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
