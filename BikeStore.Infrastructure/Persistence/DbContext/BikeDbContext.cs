@@ -34,6 +34,8 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<CustomerGroup> CustomerGroups { get; set; }
+
     public virtual DbSet<Employee> Employees { get; set; }
 
     public virtual DbSet<Feedback> Feedbacks { get; set; }
@@ -65,6 +67,8 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
     public virtual DbSet<Project> Projects { get; set; }
 
     public virtual DbSet<Promotion> Promotions { get; set; }
+
+    public virtual DbSet<Quotation> Quotations { get; set; }
 
     public virtual DbSet<SalesSummary> SalesSummaries { get; set; }
 
@@ -264,6 +268,19 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasMaxLength(5)
                 .IsUnicode(false)
                 .HasColumnName("zip_code");
+        });
+
+        modelBuilder.Entity<CustomerGroup>(entity =>
+        {
+            entity.HasKey(e => e.GroupId).HasName("PK__customer__D57795A091B0129E");
+
+            entity.ToTable("customer_groups", "sales");
+
+            entity.Property(e => e.GroupId).HasColumnName("group_id");
+            entity.Property(e => e.GroupName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("group_name");
         });
 
         modelBuilder.Entity<Employee>(entity =>
@@ -502,6 +519,10 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.BrandId).HasColumnName("brand_id");
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("description");
             entity.Property(e => e.ListPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("list_price");
@@ -581,6 +602,28 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
                 .IsUnicode(false)
                 .HasColumnName("promotion_name");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
+        });
+
+        modelBuilder.Entity<Quotation>(entity =>
+        {
+            entity.HasKey(e => e.QuotationNo).HasName("PK__quotatio__78413F48CAC949F1");
+
+            entity.ToTable("quotations", "sales");
+
+            entity.Property(e => e.QuotationNo).HasColumnName("quotation_no");
+            entity.Property(e => e.Amount)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("amount");
+            entity.Property(e => e.CustomerName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("customer_name");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("description");
+            entity.Property(e => e.ValidFrom).HasColumnName("valid_from");
+            entity.Property(e => e.ValidTo).HasColumnName("valid_to");
         });
 
         modelBuilder.Entity<SalesSummary>(entity =>

@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BikeStore.Domain.Interfaces
+namespace BikeStore.Domain.Interfaces.Products
 {
-    internal interface IProducts
+    public interface IProducts
     {
         Task<IEnumerable<ProductDto>> GetProductsAsync();
-        Task<ProductDto> GetProductByIdAsync(int id);
+        Task<ProductDto?> GetProductByIdAsync(int id);
     }
 }

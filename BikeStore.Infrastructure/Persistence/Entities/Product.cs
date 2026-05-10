@@ -17,6 +17,8 @@ public partial class Product
 
     public decimal ListPrice { get; set; }
 
+    public string? Description { get; set; }
+
     public virtual Brand Brand { get; set; } = null!;
 
     public virtual Category Category { get; set; } = null!;
