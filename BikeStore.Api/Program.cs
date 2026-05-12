@@ -15,14 +15,6 @@ builder.Services.AddControllers();
 // Add logging (default providers are already added, but you can configure here if needed)
 // Example: builder.Logging.AddConsole();
 
-// Configure controllers to respect the Accept header and support XML formatters
-//builder.Services.AddControllers(option =>
-//{
-//    option.RespectBrowserAcceptHeader = true;
-//}).AddXmlSerializerFormatters();
-
-builder.Services.AddInfrastructure(builder.Configuration);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
