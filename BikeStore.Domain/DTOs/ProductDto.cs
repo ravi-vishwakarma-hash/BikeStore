@@ -17,6 +17,7 @@ namespace BikeStore.Domain.DTOs
         public string Brand { get; set; } = string.Empty;
 
         public int? ModelYear { get; set; }
-
+        public decimal AverageRating { get; set; }
+        public int TotalRatings { get; set; }
     }
 }

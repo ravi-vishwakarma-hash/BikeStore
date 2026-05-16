@@ -77,11 +77,18 @@ namespace BikeStore.Infrastructure.Repositories
                 Stock = product.Stocks.Sum(x => x.Quantity) ?? 0,  
                 Categoty = product.Category.CategoryName,
                 Brand = product.Brand.BrandName,
-                ModelYear = product.ModelYear
+                ModelYear = product.ModelYear,
+                AverageRating = product.AverageRating,
+                TotalRatings = product.TotalRatings
 
             };
         }
-         
+
+        public Task<IEnumerable<ProductReview>> GetProductReviewsAsync(int id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<ProductDto>> GetProductsAsync(string? search, CancellationToken cancellationToken)
         {
             var query = dbContext.Products
@@ -104,7 +111,9 @@ namespace BikeStore.Infrastructure.Repositories
                     Stock = p.Stocks.Sum(x => x.Quantity) ?? 0,
                     Categoty = p.Category.CategoryName,
                     Brand = p.Brand.BrandName,
-                    ModelYear= p.ModelYear
+                    ModelYear= p.ModelYear,
+                    AverageRating = p.AverageRating,
+                    TotalRatings = p.TotalRatings
                 })
                 .ToListAsync(cancellationToken);
         }

@@ -12,5 +12,8 @@ namespace BikeStore.Domain.Interfaces.Products
         Task<IEnumerable<CategoryDto>> GetCategoriesAsync(string? search, CancellationToken cancellationToken);
         Task<IEnumerable<BrandDto>> GetBrandsAsync(string? search, CancellationToken cancellationToken);
 
+        Task<IEnumerable<ProductReview>> GetProductReviewsAsync(int id, CancellationToken cancellationToken);
+
+
     }
 }

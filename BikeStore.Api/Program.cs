@@ -16,12 +16,20 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // Add logging (default providers are already added, but you can configure here if needed)
 builder.Logging.AddConsole();
 
+// Add ProblemDetails middleware for better error handling
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler();
 }
 
 app.UseHttpsRedirection();

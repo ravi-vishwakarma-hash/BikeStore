@@ -41,5 +41,10 @@ namespace BikeStore.Infrastructure.Service.Product
         {
             return await products.GetBrandsAsync(search, cancellationToken);
         }
+
+        public async Task<IEnumerable<ProductReview>> GetProductReviewsAsync(int id, CancellationToken cancellationToken)
+        {
+            return await products.GetProductReviewsAsync(id, cancellationToken);
+        }
     }
 }

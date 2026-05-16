@@ -19,11 +19,17 @@ public partial class Product
 
     public string? Description { get; set; }
 
+    public decimal AverageRating { get; set; }
+
+    public int TotalRatings { get; set; }
+
     public virtual Brand Brand { get; set; } = null!;
 
     public virtual Category Category { get; set; } = null!;
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+    public virtual ICollection<ProductRating> ProductRatings { get; set; } = new List<ProductRating>();
 
     public virtual ICollection<Stock> Stocks { get; set; } = new List<Stock>();
 }

@@ -32,6 +32,20 @@ namespace BikeStore.Api.Controllers
             return Ok(product);
         }
 
+        [HttpGet("{id:int}/reviews")]
+        [ProducesResponseType<IEnumerable<ProductReview>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProductReviews(int id, CancellationToken cancellationToken)
+        {
+            var reviews = await productService.GetProductReviewsAsync(id, cancellationToken);
+            if (reviews == null)
+            {
+                return NotFound();
+            }
+            return Ok(reviews);
+        }
+
+
 
         [HttpGet("categories")]
         [ProducesResponseType<IEnumerable<CategoryDto>>(StatusCodes.Status200OK)]

@@ -7,6 +7,9 @@ namespace BikeStore.Infrastructure.Persistence.DbContext;
 
 public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
+
+    // give me commit message for this code : 
+
     public BikeDbContext()
     {
     }
@@ -63,6 +66,8 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
     public virtual DbSet<ProductHistory> ProductHistories { get; set; }
 
     public virtual DbSet<ProductJson> ProductJsons { get; set; }
+
+    public virtual DbSet<ProductRating> ProductRatings { get; set; }
 
     public virtual DbSet<Project> Projects { get; set; }
 
@@ -516,6 +521,9 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
             entity.ToTable("products", "production");
 
             entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.AverageRating)
+                .HasColumnType("decimal(3, 2)")
+                .HasColumnName("average_rating");
             entity.Property(e => e.BrandId).HasColumnName("brand_id");
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
             entity.Property(e => e.Description)
@@ -530,6 +538,7 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("product_name");
+            entity.Property(e => e.TotalRatings).HasColumnName("total_ratings");
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Products)
                 .HasForeignKey(d => d.BrandId)
@@ -569,6 +578,38 @@ public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Info).HasColumnName("info");
+        });
+
+        modelBuilder.Entity<ProductRating>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__product___3213E83F94C903B6");
+
+            entity.ToTable("product_ratings", "sales");
+
+            entity.HasIndex(e => e.ProductId, "idx_ratings_product_id");
+
+            entity.HasIndex(e => new { e.ProductId, e.CustomerId }, "unique_user_product_ratting").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnName("created_at");
+            entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.Rating)
+                .HasColumnType("decimal(2, 2)")
+                .HasColumnName("rating");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.ProductRatings)
+                .HasForeignKey(d => d.CustomerId)
+                .HasConstraintName("FK__product_r__custo__531856C7");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductRatings)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK__product_r__produ__5224328E");
         });
 
         modelBuilder.Entity<Project>(entity =>

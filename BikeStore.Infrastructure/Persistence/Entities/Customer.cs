@@ -24,4 +24,6 @@ public partial class Customer
     public string? ZipCode { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<ProductRating> ProductRatings { get; set; } = new List<ProductRating>();
 }
