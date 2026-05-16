@@ -1,9 +1,5 @@
 ﻿using BikeStore.Domain.DTOs;
 using BikeStore.Domain.Interfaces.Products;
-using BikeStore.Infrastructure.Persistence.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BikeStore.Infrastructure.Service.Product
 {
@@ -20,9 +16,9 @@ namespace BikeStore.Infrastructure.Service.Product
         /// <returns>
         /// An IEnumerable of ProductDto objects representing the products retrieved from the data source.
         /// </returns>
-        public async Task<IEnumerable<Domain.DTOs.ProductDto>> GetProductsAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Domain.DTOs.ProductDto>> GetProductsAsync(string? search, CancellationToken cancellationToken)
         {
-            return await products.GetProductsAsync(cancellationToken);
+            return await products.GetProductsAsync(search, cancellationToken);
         }
 
         /// <summary>

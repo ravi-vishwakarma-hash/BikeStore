@@ -29,7 +29,7 @@ namespace BikeStore.Infrastructure.Repositories
                     b.BrandId,
                     b.BrandName,
                     null,
-                    b.Products.Count()
+                    b.Products.Count
                 )).ToListAsync(cancellationToken);
 
             return result;
@@ -49,7 +49,7 @@ namespace BikeStore.Infrastructure.Repositories
                 {
                     CategoryId = c.CategoryId,
                     Name = c.CategoryName,
-                    ProductCount = c.Products.Count()
+                    ProductCount = c.Products.Count
                 }).ToListAsync(cancellationToken);
 
             return result;
@@ -82,9 +82,19 @@ namespace BikeStore.Infrastructure.Repositories
             };
         }
          
-        public async Task<IEnumerable<ProductDto>> GetProductsAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductDto>> GetProductsAsync(string? search, CancellationToken cancellationToken)
         {
-            return await dbContext.Products
+            var query = dbContext.Products
+                .Include(x => x.Stocks)
+                .Include(x => x.Category)
+                .Include(x => x.Brand)
+                .AsQueryable();
+
+            var products = string.IsNullOrWhiteSpace(search)
+                ? query
+                : query.Where(p => p.ProductName.Contains(search) || ( p.Description != null && p.Description.Contains(search)));
+             
+            return await products
                 .Select(p => new ProductDto
                 {
                     ProductId = p.ProductId,

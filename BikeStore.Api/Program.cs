@@ -13,11 +13,8 @@ builder.Services.AddControllers();
 // add intrasrtusture extention
 builder.Services.AddInfrastructure(builder.Configuration);
 
-// Add Opentelemetry Service
-//builder.Services.AddOpenTelemetryObservability(builder.Configuration);
-
 // Add logging (default providers are already added, but you can configure here if needed)
-// Example: builder.Logging.AddConsole();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 
@@ -34,7 +31,7 @@ app.UseRouting();
 app.MapControllers();
 
 // Example usage of logging in a minimal API endpoint
-app.MapGet("/health", (ILoggerFactory loggerFactory) =>
+app.MapGet("/health", async (ILoggerFactory loggerFactory) =>
 {
     var logger = loggerFactory.CreateLogger("HealthEndpoint");
     logger.LogInformation("Health check endpoint was called.");
