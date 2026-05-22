@@ -7,9 +7,7 @@ namespace BikeStore.Infrastructure.Persistence.DbContext;
 
 public partial class BikeDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
-
-    // give me commit message for this code : 
-
+ 
     public BikeDbContext()
     {
     }

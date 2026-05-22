@@ -18,30 +18,30 @@ namespace BikeStore.Infrastructure
         /// <param name="configureration"></param>
         /// <returns>return IServiceCollection</returns>
         /// <exception cref="InvalidOperationException"></exception>
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configureration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            //var redisSettings = configureration
-            //    .GetSection("Redis")
-            //    .Get<RedisSettings>()
-            //    ?? throw new InvalidOperationException("Redis settings missing");
+            var redisSettings = configuration
+                .GetSection("Redis")
+                .Get<RedisSettings>()
+                ?? throw new InvalidOperationException("Redis settings missing");
+
+            var muxer = ConnectionMultiplexer.Connect(
+                new ConfigurationOptions
+                {
+                    EndPoints = { { redisSettings.Host, redisSettings.Port } },
+                    User = redisSettings.User,
+                    Password = redisSettings.Password
+                });
 
 
-            //var redisConnection = configureration["Redis:ConnectionString"];
+            services.AddSingleton<IConnectionMultiplexer>(muxer);
 
-            //if (string.IsNullOrWhiteSpace(redisConnection))
-            //{
-            //    throw new InvalidOperationException(
-            //        "Redis connection string is not configured. Please set 'Redis:ConnectionString'.");
-            //}
-
-            //services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
-
-            //services.AddScoped<ICacheService, RedisCacheService>();
+            services.AddScoped<ICacheService, RedisCacheService>();
 
 
             services.AddDbContextPool<BikeDbContext>(options =>
             {
-                var connectionString = configureration.GetConnectionString("bike_store_db");
+                var connectionString = configuration.GetConnectionString("bike_store_db");
                 if (string.IsNullOrWhiteSpace(connectionString))
                 {
                     throw new InvalidOperationException(
@@ -58,5 +58,13 @@ namespace BikeStore.Infrastructure
 
             return services;
         }
+    }
+
+    internal class RedisSettings
+    {
+        public string Host { get; set; } = string.Empty;
+        public int Port { get; set; }
+        public string User { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 }

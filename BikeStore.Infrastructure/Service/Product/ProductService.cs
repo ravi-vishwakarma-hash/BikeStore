@@ -1,4 +1,5 @@
-﻿using BikeStore.Domain.DTOs;
+﻿using BikeStore.Application.Interface;
+using BikeStore.Domain.DTOs;
 using BikeStore.Domain.Interfaces.Products;
 
 namespace BikeStore.Infrastructure.Service.Product
@@ -7,7 +8,7 @@ namespace BikeStore.Infrastructure.Service.Product
     /// Provides methods for retrieving product information asynchronously from a data source.
     /// </summary>
     /// <param name="products">The data access abstraction used to retrieve product information. Cannot be null.</param>
-    public class ProductService (IProducts products)
+    public class ProductService (IProducts products, ICacheService cache)
     {
  
         /// <summary>
@@ -29,7 +30,23 @@ namespace BikeStore.Infrastructure.Service.Product
         /// cref="Domain.DTOs.ProductDto"/> representing the product if found; otherwise, <see langword="null"/>.</returns>
         public async Task<Domain.DTOs.ProductDto?> GetProductByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await products.GetProductByIdAsync(id, cancellationToken);
+            var keyName = $"product:{id}";
+
+            var response = await cache.GetAsync<ProductDto?>(keyName);
+
+            if (response is not null)
+            {
+                return response;
+            }
+
+            var product = await products.GetProductByIdAsync(id, cancellationToken);
+
+            if (product is not null)
+            {
+                await cache.SetAsync<ProductDto>(keyName, product);
+            }
+
+            return product;
         }
 
         public async Task<IEnumerable<CategoryDto>> GetCategoriesAsync(string? search, CancellationToken cancellationToken)
