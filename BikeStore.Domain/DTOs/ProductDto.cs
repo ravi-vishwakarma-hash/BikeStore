@@ -12,7 +12,7 @@ namespace BikeStore.Domain.DTOs
         public decimal Price { get; set; }
         public int Stock { get; set; } 
 
-        public string Categoty { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
 
         public string Brand { get; set; } = string.Empty;
 
