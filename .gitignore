@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /documents.docx
 /setup-secrets.ps1
+/BikeStore.Api/appsettings.json
+/BikeStore.Api/appsettings.Development.json
